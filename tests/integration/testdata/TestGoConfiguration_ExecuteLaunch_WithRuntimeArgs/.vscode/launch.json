@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "name": "test configuration",
+      "type": "go",
+      "request": "launch",
+      "program": "main.go",
+      "runtimeArgs": ["one", "two", "three"]
+    }
+  ]
+}

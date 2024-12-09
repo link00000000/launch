@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "name": "test configuration",
+      "type": "go",
+      "request": "launch",
+      "program": "main.go",
+      "env": {
+        "ENV_ONE": "one",
+        "ENV_TWO": "two",
+        "ENV_THREE": "three"
+      }
+    }
+  ]
+}
