@@ -5,7 +5,7 @@
       "type": "go",
       "request": "launch",
       "program": "main.go",
-      "runtimeArgs": ["one", "two", "three"]
+      "args": ["one", "two", "three"]
     }
   ]
 }

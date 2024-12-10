@@ -75,8 +75,8 @@ func TestGoConfiguration_ExecuteLaunch_WithEnv(t *testing.T) {
 	}
 }
 
-func TestGoConfiguration_ExecuteLaunch_WithRuntimeArgs(t *testing.T) {
-	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteLaunch_WithRuntimeArgs")
+func TestGoConfiguration_ExecuteLaunch_WithArgs(t *testing.T) {
+	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteLaunch_WithArgs")
 	defer testEnv.Teardown()
 
 	l, err := launch.ReadFile(".vscode/launch.json")

@@ -9,7 +9,7 @@ func TestGoConfigurationUnmarshalJSON(t *testing.T) {
       "type": "go",
       "request": "launch",
       "program": "main.go",
-      "runtimeArgs": ["--help"],
+      "args": ["--help"],
       "env": {
         "TEST_ONE": "1",
         "TEST_TWO": "custom"
@@ -44,8 +44,8 @@ func TestGoConfigurationUnmarshalJSON(t *testing.T) {
 		t.Fatalf("incorrect value for property goCfg.Program: expected %s, got %s", "main.go", goCfg.Program)
 	}
 
-	if len(goCfg.RuntimeArgs) != 1 && goCfg.RuntimeArgs[0] != "--help" {
-		t.Fatalf("incorrect value for property goCfg.RuntimeArgs: expected %#v, got %#v", []string{"--help"}, goCfg.RuntimeArgs)
+	if len(goCfg.Args) != 1 && goCfg.Args[0] != "--help" {
+		t.Fatalf("incorrect value for property goCfg.Args: expected %#v, got %#v", []string{"--help"}, goCfg.Args)
 	}
 
 	if v, ok := goCfg.Env["TEST_ONE"]; !ok {

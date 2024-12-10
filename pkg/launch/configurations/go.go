@@ -8,10 +8,10 @@ import (
 
 type GoConfiguration struct {
 	*BaseConfiguration
-	Request     string            `json:"request"`
-	Program     string            `json:"program"`
-	RuntimeArgs []string          `json:"runtimeArgs"` // Replace with args?
-	Env         map[string]string `json:"env"`
+	Request string            `json:"request"`
+	Program string            `json:"program"`
+	Args    []string          `json:"args"`
+	Env     map[string]string `json:"env"`
 }
 
 type InvalidOptionError struct {
@@ -41,7 +41,7 @@ func (cfg *GoConfiguration) launch(cwd string) (int, error) {
 		return 0, NewInvalidOptionError("program", "option required for \"launch\" request")
 	}
 
-	args := append([]string{"--allow-non-terminal-interactive=true", "debug", cfg.Program, "--"}, cfg.RuntimeArgs...)
+	args := append([]string{"--allow-non-terminal-interactive=true", "debug", cfg.Program, "--"}, cfg.Args...)
 
 	cmd := exec.Command("dlv", args...)
 	cmd.Dir = cwd
