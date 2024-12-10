@@ -10,7 +10,7 @@ type GoConfiguration struct {
 	*BaseConfiguration
 	Request     string            `json:"request"`
 	Program     string            `json:"program"`
-	RuntimeArgs []string          `json:"runtimeArgs"`
+	RuntimeArgs []string          `json:"runtimeArgs"` // Replace with args?
 	Env         map[string]string `json:"env"`
 }
 
@@ -41,8 +41,9 @@ func (cfg *GoConfiguration) launch(cwd string) (int, error) {
 		return 0, NewInvalidOptionError("program", "option required for \"launch\" request")
 	}
 
-	args := append([]string{"run", cfg.Program}, cfg.RuntimeArgs...)
-	cmd := exec.Command("go", args...)
+	args := append([]string{"--allow-non-terminal-interactive=true", "debug", cfg.Program, "--"}, cfg.RuntimeArgs...)
+
+	cmd := exec.Command("dlv", args...)
 	cmd.Dir = cwd
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
