@@ -1,17 +1,28 @@
 package configurations
 
 import (
+	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
-type GoConfiguration struct {
-	*BaseConfiguration
+type GoConfigurationJSON struct {
+	*BaseConfigurationJSON
 	Request string            `json:"request"`
 	Program string            `json:"program"`
 	Args    []string          `json:"args"`
 	Env     map[string]string `json:"env"`
+	EnvFile string            `json:"envFile"`
+}
+
+type GoConfiguration struct {
+	Request string
+	Program string
+	Args    []string
+	Env     map[string]string
 }
 
 type InvalidOptionError struct {
@@ -27,16 +38,64 @@ func (err InvalidOptionError) Error() string {
 	return fmt.Sprintf("invalid option %s: %s", err.Option, err.Reason)
 }
 
-func (cfg *GoConfiguration) Execute(cwd string) (int, error) {
-	switch cfg.Request {
+func NewGoConfigurationFromJSON(b []byte, vars Variables) (*GoConfigurationJSON, error) {
+	var cfgJson GoConfigurationJSON
+
+	err := json.Unmarshal(b, &cfgJson)
+	if err != nil {
+		return nil, err
+	}
+
+	var cfg GoConfiguration
+	cfg.Program = SubstituteVariables(cfgJson.Program, vars)
+
+	if cfgJson.EnvFile != "" {
+		f, err := os.Open(cfgJson.EnvFile)
+
+		if err != nil {
+			return nil, err
+		}
+
+		defer f.Close()
+
+		scanner := bufio.NewScanner(f)
+		lineNumber := 1
+		for scanner.Scan() {
+			line := scanner.Text()
+
+			if len(line) == 0 || line[0] == '#' {
+				continue
+			}
+
+			parts := strings.SplitN(line, "=", 2)
+
+			if len(parts) != 2 {
+				return nil, NewMalformedEnvFileError(cfgJson.EnvFile, lineNumber, "no separator")
+			}
+
+			cfg.Env[parts[0]] = parts[1]
+
+			lineNumber++
+		}
+
+		if err := scanner.Err(); err != nil {
+			return nil, err
+		}
+	}
+
+	return &cfgJson, nil
+}
+
+func (cfg *GoConfigurationJSON) Execute(cwd string) (int, error) {
+	switch cfgJson.Request {
 	case "launch":
-		return cfg.launch(cwd)
+		return cfgJson.launch(cwd)
 	default:
 		return 0, ErrUnsupportedRequest
 	}
 }
 
-func (cfg *GoConfiguration) launch(cwd string) (int, error) {
+func (cfg *GoConfigurationJSON) launch(cwd string) (int, error) {
 	if cfg.Program == "" {
 		return 0, NewInvalidOptionError("program", "option required for \"launch\" request")
 	}

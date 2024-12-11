@@ -17,13 +17,13 @@ func TestGoConfigurationUnmarshalJSON(t *testing.T) {
     }
   `)
 
-	cfg, err := UnmarshalJSON(b)
+	cfg, err := ReadFromJSON(b)
 
 	if err != nil {
 		t.Fatal("configurations.UnmarshalJSON: ", err)
 	}
 
-	goCfg, ok := cfg.(*GoConfiguration)
+	goCfg, ok := cfg.(*GoConfigurationJSON)
 	if !ok {
 		t.Fatal("configuration not parsed as type GoConfiguration")
 	}

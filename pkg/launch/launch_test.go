@@ -6,7 +6,7 @@ import (
 	"github.com/link00000000/launch/pkg/launch/configurations"
 )
 
-func TestUnmarshalJSON(t *testing.T) {
+func TestReadFromJSON(t *testing.T) {
 	b := []byte(`
     {
       "version": 2.0,
@@ -14,7 +14,7 @@ func TestUnmarshalJSON(t *testing.T) {
     }
   `)
 
-	launch, err := UnmarshalJSON(b)
+	launch, err := ReadFromJSON(b)
 
 	if err != nil {
 		t.Fatal("launch.UnmarshalJSON: ", err)

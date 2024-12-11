@@ -18,16 +18,16 @@ type Launch struct {
 
 var ErrConfigurationNotFound = errors.New("configuration not found")
 
-func ReadFile(name string) (*Launch, error) {
+func ReadFromFile(name string) (*Launch, error) {
 	b, err := os.ReadFile(name)
 	if err != nil {
 		return nil, err
 	}
 
-	return UnmarshalJSON(b)
+	return ReadFromJSON(b)
 }
 
-func UnmarshalJSON(b []byte) (*Launch, error) {
+func ReadFromJSON(b []byte) (*Launch, error) {
 	var launchJson LaunchJSON
 
 	err := json.Unmarshal(b, &launchJson)
@@ -37,7 +37,7 @@ func UnmarshalJSON(b []byte) (*Launch, error) {
 
 	launch := &Launch{}
 	for _, raw := range launchJson.Configurations {
-		var base configurations.BaseConfiguration
+		var base configurations.BaseConfigurationJSON
 
 		err := json.Unmarshal(raw, &base)
 		if err != nil {
@@ -46,7 +46,7 @@ func UnmarshalJSON(b []byte) (*Launch, error) {
 
 		switch base.Type {
 		case "go":
-			cfg := &configurations.GoConfiguration{}
+			cfg := &configurations.GoConfigurationJSON{}
 
 			err := json.Unmarshal(raw, cfg)
 			if err != nil {

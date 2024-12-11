@@ -21,7 +21,7 @@ func init() {
 }
 
 func main() {
-	launch, err := launch.ReadFile(".vscode/launch.json")
+	launch, err := launch.ReadFromFile(".vscode/launch.json")
 	if err != nil {
 		log.Fatalf("failed to read %s: %#v\n", launchJsonPath, err)
 	}

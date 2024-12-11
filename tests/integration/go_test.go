@@ -11,7 +11,7 @@ func TestGoConfiguration_ExecuteLaunch(t *testing.T) {
 	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteLaunch")
 	defer testEnv.Teardown()
 
-	l, err := launch.ReadFile(".vscode/launch.json")
+	l, err := launch.ReadFromFile(".vscode/launch.json")
 	if err != nil {
 		t.Fatalf("unexpected error while calling launch.ReadFile(\".vscode/launch.json\"): %#v", err)
 	}
@@ -35,7 +35,7 @@ func TestGoConfiguration_ExecuteLaunch_WithoutProgram(t *testing.T) {
 	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteLaunch_WithoutProgram")
 	defer testEnv.Teardown()
 
-	l, err := launch.ReadFile(".vscode/launch.json")
+	l, err := launch.ReadFromFile(".vscode/launch.json")
 	if err != nil {
 		t.Fatalf("unexpected error while calling launch.ReadFile(\".vscode/launch.json\"): %#v", err)
 	}
@@ -55,7 +55,7 @@ func TestGoConfiguration_ExecuteLaunch_WithEnv(t *testing.T) {
 	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteLaunch_WithEnv")
 	defer testEnv.Teardown()
 
-	l, err := launch.ReadFile(".vscode/launch.json")
+	l, err := launch.ReadFromFile(".vscode/launch.json")
 	if err != nil {
 		t.Fatalf("unexpected error while calling launch.ReadFile(\".vscode/launch.json\"): %#v", err)
 	}
@@ -79,7 +79,7 @@ func TestGoConfiguration_ExecuteLaunch_WithArgs(t *testing.T) {
 	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteLaunch_WithArgs")
 	defer testEnv.Teardown()
 
-	l, err := launch.ReadFile(".vscode/launch.json")
+	l, err := launch.ReadFromFile(".vscode/launch.json")
 	if err != nil {
 		t.Fatalf("unexpected error while calling launch.ReadFile(\".vscode/launch.json\"): %#v", err)
 	}
@@ -103,7 +103,7 @@ func TestGoConfiguration_ExecuteUnsupportedRequest(t *testing.T) {
 	testEnv := SetupTestEnv(t, "testdata/TestGoConfiguration_ExecuteUnsupportedRequest")
 	defer testEnv.Teardown()
 
-	l, err := launch.ReadFile(".vscode/launch.json")
+	l, err := launch.ReadFromFile(".vscode/launch.json")
 	if err != nil {
 		t.Fatalf("unexpected error while calling launch.ReadFile(\".vscode/launch.json\"): %#v", err)
 	}

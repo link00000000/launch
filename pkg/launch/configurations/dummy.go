@@ -1,11 +1,11 @@
 package configurations
 
 type DummyConfiguration struct {
-	*BaseConfiguration
+	*BaseConfigurationJSON
 }
 
 func NewDummyConfiguration(name string) *DummyConfiguration {
-	return &DummyConfiguration{&BaseConfiguration{Name: name}}
+	return &DummyConfiguration{&BaseConfigurationJSON{Name: name}}
 }
 
 // Implements [Configuration]
